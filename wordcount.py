@@ -41,6 +41,34 @@ print_words() and print_top().
 
 import sys
 
+
+def print_words(filename):
+    sort_collection = helper(filename)
+    for word, count in sort_collection:
+        print(word, count)
+
+
+def print_top(filename):
+    sort_collection = helper(filename)
+    sliced_sort_collection = sort_collection[0:20]
+    for word, count in sliced_sort_collection:
+        print(word, count)
+
+
+def helper(filename):
+    collection_of_words = {}
+    with open(filename, "r") as f:
+        contents = f.read()
+    for ind_word in contents.lower().split():
+        if ind_word not in collection_of_words:
+            collection_of_words.setdefault(ind_word, 1)
+        else:
+            collection_of_words[ind_word] += 1
+    tuple_collection = collection_of_words.items()
+    sort_collection = sorted(
+        tuple_collection, key=lambda x: x[1], reverse=True)
+    return sort_collection
+
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
 # You could write a helper utility function that reads a file
@@ -55,7 +83,7 @@ import sys
 
 def main():
     if len(sys.argv) != 3:
-        print 'usage: python wordcount.py {--count | --topcount} file'
+        print('usage: python wordcount.py {--count | --topcount} file')
         sys.exit(1)
 
     option = sys.argv[1]
@@ -65,7 +93,7 @@ def main():
     elif option == '--topcount':
         print_top(filename)
     else:
-        print 'unknown option: ' + option
+        print('unknown option: ' + option)
         sys.exit(1)
 
 
